@@ -1,23 +1,40 @@
-const BOXES_WIDTH = 50;
-const BOXES_HEIGHT = 50;
+const DEFAULT_BOXES_SIZE = 50;
+const MAX_BOXES_SIZE = 100;
 const content = document.querySelector("#content");
-
-boxSize = (window.innerHeight / BOXES_HEIGHT).toFixed(0) - 2;
 
 function changeColor(box) {
     box.style.backgroundColor = "red";
 }
 
-for (let i = 0; i < BOXES_HEIGHT; ++i) {
-    const boxrow = document.createElement("div");
-    boxrow.classList.add("boxrow");
-    for (let j = 0; j < BOXES_WIDTH; ++j) {
-        const box = document.createElement("div");
-        box.classList.add("box");
-        box.style.width = (boxSize)  + "px";
-        box.style.height = (boxSize) + "px";
-        box.addEventListener('mouseover', () => changeColor(box))
-        boxrow.appendChild(box);
+const button = document.createElement("button");
+button.textContent = "Change size";
+button.addEventListener('click', () => {
+    let newSize = parseInt(prompt("New size?", DEFAULT_BOXES_SIZE));
+    newSize = (Number.isNaN(newSize) || MAX_BOXES_SIZE < newSize || newSize < 1) ? DEFAULT_BOXES_SIZE : newSize;
+    removeBoxes();
+    createBoxes(newSize);
+})
+document.body.firstChild.before(button);
+
+const createBoxes = (size) => {
+    const boxSize = (window.innerHeight / size).toFixed(0) - 2;
+    for (let i = 0; i < size; ++i) {
+        const boxrow = document.createElement("div");
+        boxrow.classList.add("boxrow");
+        for (let j = 0; j < size; ++j) {
+            const box = document.createElement("div");
+            box.classList.add("box");
+            box.style.width = (boxSize)  + "px";
+            box.style.height = (boxSize) + "px";
+            box.addEventListener('mouseover', () => changeColor(box))
+            boxrow.appendChild(box);
+        }
+        content.appendChild(boxrow);
     }
-    content.appendChild(boxrow);
 }
+
+const removeBoxes = () => {
+    content.innerHTML = '';
+}
+
+createBoxes(DEFAULT_BOXES_SIZE);
