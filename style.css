@@ -1,0 +1,13 @@
+#content {
+    display: flex;
+    flex-direction: column;
+}
+
+.boxrow {
+    display: flex;
+}
+
+.box {
+    border: 1px solid;
+    background-color: aquamarine;
+}
