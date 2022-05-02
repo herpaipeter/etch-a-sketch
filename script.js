@@ -2,10 +2,6 @@ const DEFAULT_BOXES_SIZE = 50;
 const MAX_BOXES_SIZE = 100;
 const content = document.querySelector("#content");
 
-function changeColor(box) {
-    box.style.backgroundColor = "red";
-}
-
 const button = document.createElement("button");
 button.textContent = "Change size";
 button.addEventListener('click', () => {
@@ -15,6 +11,14 @@ button.addEventListener('click', () => {
     createBoxes(newSize);
 })
 document.body.firstChild.before(button);
+
+const randomRgb = () => {
+  return Math.floor(Math.random() * 256);
+}
+
+function changeColor(box) {
+    box.style.backgroundColor = `rgb(${randomRgb()}, ${randomRgb()}, ${randomRgb()})`;
+}
 
 const createBoxes = (size) => {
     const boxSize = (window.innerHeight / size).toFixed(0) - 2;
