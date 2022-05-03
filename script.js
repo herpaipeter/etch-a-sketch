@@ -4,11 +4,12 @@ const content = document.querySelector("#content");
 
 const button = document.createElement("button");
 button.textContent = "Change size";
-button.addEventListener('click', () => {
+button.addEventListener("click", () => {
     let newSize = parseInt(prompt("New size?", DEFAULT_BOXES_SIZE));
-    newSize = (Number.isNaN(newSize) || MAX_BOXES_SIZE < newSize || newSize < 1) ? DEFAULT_BOXES_SIZE : newSize;
-    removeBoxes();
-    createBoxes(newSize);
+    if (typeof newSize === "number" && 0 < newSize && newSize <= MAX_BOXES_SIZE) {
+        removeBoxes();
+        createBoxes(newSize);
+    }
 })
 document.body.firstChild.before(button);
 
@@ -16,7 +17,11 @@ const randomRgb = () => {
   return Math.floor(Math.random() * 256);
 }
 
-function changeColor(box) {
+function changeColorRed(box) {
+    box.style.backgroundColor = "red";
+}
+
+function changeColorRandom(box) {
     box.style.backgroundColor = `rgb(${randomRgb()}, ${randomRgb()}, ${randomRgb()})`;
 }
 
@@ -30,7 +35,7 @@ const createBoxes = (size) => {
             box.classList.add("box");
             box.style.width = (boxSize)  + "px";
             box.style.height = (boxSize) + "px";
-            box.addEventListener('mouseover', () => changeColor(box))
+            box.addEventListener("mouseover", () => changeColorRandom(box))
             boxrow.appendChild(box);
         }
         content.appendChild(boxrow);
@@ -38,7 +43,7 @@ const createBoxes = (size) => {
 }
 
 const removeBoxes = () => {
-    content.innerHTML = '';
+    content.innerHTML = "";
 }
 
 createBoxes(DEFAULT_BOXES_SIZE);
