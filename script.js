@@ -25,6 +25,14 @@ function changeColorRandom(box) {
     box.style.backgroundColor = `rgb(${randomRgb()}, ${randomRgb()}, ${randomRgb()})`;
 }
 
+function changeColorDarken(box) {
+    let lightness = box.getAttribute("data-lightness");
+    box.style.backgroundColor = `hsl(0, 0%, ${lightness}%)`;
+    if (0 < parseInt(lightness)) {
+        box.setAttribute("data-lightness", parseInt(lightness) - 10);
+    }
+}
+
 const createBoxes = (size) => {
     const boxSize = (window.innerHeight / size).toFixed(0) - 2;
     for (let i = 0; i < size; ++i) {
@@ -35,7 +43,8 @@ const createBoxes = (size) => {
             box.classList.add("box");
             box.style.width = (boxSize)  + "px";
             box.style.height = (boxSize) + "px";
-            box.addEventListener("mouseover", () => changeColorRandom(box))
+            box.setAttribute("data-lightness", "100");
+            box.addEventListener("mouseover", () => changeColorDarken(box))
             boxrow.appendChild(box);
         }
         content.appendChild(boxrow);
